@@ -53,7 +53,7 @@ def sjf(processes):
     }
 
 from collections import deque
-def rr(processes,quantum=2):
+def round_robin(processes,quantum=2):
     processes=sorted(processes,key=lambda x:(x.arri_time,x.pid))
     n=len(processes)
     remaining_bt={p.pid:p.bur_time for p in processes}
@@ -86,6 +86,32 @@ def rr(processes,quantum=2):
         wt=tat-p.bur_time
         total_tat+=tat
         total_wt+=wt
+    return{
+    "average_wt":total_wt/n,
+    "average_tat":total_tat/n
+    }
+
+def priority_scheduling(processes):
+    process_copy=processes.copy()
+    n=len(processes)
+    current_time=0
+    total_tat=0
+    total_wt=0
+    while process_copy:
+        available=[
+            p for p in process_copy
+            if p.arri_time<=current_time
+        ]
+        if not available:
+            current_time==min(p.arri_time for p in process_copy)
+            continue
+        shortest=min(available,key=lambda x:(x.priority,x.arri_time,x.pid))
+        wt=current_time-shortest.arri_time
+        tat=wt+shortest.bur_time
+        total_tat+=tat
+        total_wt+=wt
+        process_copy.remove(shortest)
+        current_time+=shortest.bur_time
     return{
     "average_wt":total_wt/n,
     "average_tat":total_tat/n

@@ -1,4 +1,4 @@
-from scheduler import Process,fcfs,sjf,rr
+from scheduler import Process,fcfs,sjf,round_robin,priority_scheduling
 processes = [
     Process(1, 0, 5, priority=2),
     Process(2, 1, 3, priority=1),
@@ -8,4 +8,5 @@ processes = [
 
 print("FCFS result :",fcfs(processes))
 print("SJF result :",sjf(processes))
-print("Round Robin result :",rr(processes,5))
+print("Round Robin result :",round_robin(processes,5))
+print("Priority non-premtive result :",priority_scheduling(processes))
